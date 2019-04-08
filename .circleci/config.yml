@@ -4,8 +4,8 @@ jobs:
     machine: true
     steps:
       - add_ssh_keys:
-        fingerprints:
-          - $SSH_FINGERPRINT
+          fingerprints:
+            - $SSH_FINGERPRINT
       - checkout
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker build -t imansilla/aws-deploy:$CIRCLE_SHA1 .
