@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+      - add_ssh_keys:
+        fingerprints:
+          - $SSH_FINGERPRINT
+      - checkout
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -t imansilla/aws-deploy:$CIRCLE_SHA1 .
+      - run: docker push imansilla/aws-deploy:$CIRCLE_SHA1
+      - run: ssh -o StrictHostKeyChecking=no root@54.147.43.195 "/bin/bash /root/docker/deploy $CIRCLE_SHA1"
